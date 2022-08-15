@@ -3,9 +3,7 @@ AWSTemplateFormatVersion: 2010-09-09
 
 Description: EKSWSV1
 
-
 Parameters:
-
   EksClusterName:
     Type: String
     Description: The name of the EKS cluster created
@@ -17,7 +15,7 @@ Parameters:
   GitSourceRepo:
     Type: String
     Description: GitHub source repository - must contain a Dockerfile and buildspec.yml in the base
-    Default: cd0157-Server-Deployment-and-Containerization
+    Default: Server-Deployment-and-Containerization
     MinLength: 1
     MaxLength: 100
     ConstraintDescription: You must enter a GitHub repository name
@@ -33,14 +31,14 @@ Parameters:
   GitHubToken:
     Type: String
     NoEcho: true
-    Description: GitHub API token - see https://github.com/blog/1509-personal-api-tokens
+    Description: Github access token
     MinLength: 3
     MaxLength: 100
     ConstraintDescription: You must enter a GitHub personal access token
 
   GitHubUser:
     Type: String
-    Default: SudKul
+    Default: MrSCAN
     Description: GitHub username or organization
     MinLength: 3
     MaxLength: 100
@@ -61,7 +59,6 @@ Parameters:
     MinLength: 3
     MaxLength: 100
     ConstraintDescription: You must enter a kubectl IAM role
-
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -101,9 +98,7 @@ Metadata:
       EksClusterName:
         default: EKS cluster name
 
-
 Resources:
-
   EcrDockerRepository:
     Type: AWS::ECR::Repository
     DeletionPolicy: Retain
@@ -256,25 +251,25 @@ Resources:
                 Effect: Allow
                 Action:
                   - sts:AssumeRole
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - eks:Describe*
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - ssm:GetParameters
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - ecr:GetAuthorizationToken
-              - Resource: '*'
+              - Resource: "*"
                 Effect: Allow
                 Action:
                   - ec2:CreateNetworkInterface
